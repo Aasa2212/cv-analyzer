@@ -1,16 +1,12 @@
 import mammoth from "mammoth";
-import { PDFParse } from "pdf-parse";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pdfParse = require("pdf-parse/lib/pdf-parse.js");
 
 export async function extractText(buffer: Buffer, filename: string): Promise<string> {
   const lower = filename.toLowerCase();
   if (lower.endsWith(".pdf")) {
-    const parser = new PDFParse({ data: buffer });
-    try {
-      const result = await parser.getText();
-      return result.text;
-    } finally {
-      await parser.destroy();
-    }
+    const data = await pdfParse(buffer);
+    return data.text as string;
   }
   if (lower.endsWith(".docx")) {
     const result = await mammoth.extractRawText({ buffer });
