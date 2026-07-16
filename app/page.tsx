@@ -23,10 +23,10 @@ const COUNTRIES = [
 ];
 
 function scoreColor(total: number) {
-  if (total >= 85) return "#16a34a";
-  if (total >= 70) return "#22c55e";
-  if (total >= 50) return "#f59e0b";
-  return "#ef4444";
+  if (total >= 85) return "#000000";
+  if (total >= 70) return "#262626";
+  if (total >= 50) return "#525252";
+  return "#a3a3a3";
 }
 
 export default function Home() {
@@ -88,7 +88,7 @@ export default function Home() {
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">
+            <div className="w-9 h-9 rounded-lg bg-black flex items-center justify-center text-white font-bold">
               CV
             </div>
             <span className="font-semibold text-gray-900 text-lg">
@@ -101,7 +101,7 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-6 py-10">
         {!result && !loading && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-2xl mx-auto">
+          <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-2xl mx-auto">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Will your resume make it past the bots?</h1>
             <p className="text-gray-500 mb-6">
               Upload your resume — get a real ATS score, section-by-section breakdown, and matching jobs.
@@ -115,7 +115,7 @@ export default function Home() {
             />
             <button
               onClick={() => fileInput.current?.click()}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition"
+              className="bg-black hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
             >
               Upload Resume (PDF, DOCX, TXT)
             </button>
@@ -124,7 +124,8 @@ export default function Home() {
         )}
 
         {loading && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-2xl mx-auto">
+          <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-2xl mx-auto">
+            <div className="w-8 h-8 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto mb-4" />
             <p className="text-gray-500">Analyzing {fileName}…</p>
           </div>
         )}
@@ -135,7 +136,7 @@ export default function Home() {
               <h1 className="text-xl font-semibold text-gray-900">Results for {fileName}</h1>
               <button
                 onClick={() => fileInput.current?.click()}
-                className="text-sm text-indigo-600 font-medium hover:underline"
+                className="text-sm text-black font-medium hover:underline"
               >
                 Analyze another CV
               </button>
@@ -150,10 +151,11 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               {/* Score gauge */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-8 flex flex-col items-center justify-center">
+              <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8 flex flex-col items-center justify-center">
                 <svg width="180" height="180" viewBox="0 0 180 180">
                   <circle cx="90" cy="90" r="70" fill="none" stroke="#e5e7eb" strokeWidth="14" />
                   <circle
+                    className="animate-ring"
                     cx="90"
                     cy="90"
                     r="70"
@@ -164,6 +166,7 @@ export default function Home() {
                     strokeDashoffset={circumference * (1 - result.total / 100)}
                     strokeLinecap="round"
                     transform="rotate(-90 90 90)"
+                    style={{ transition: "stroke-dashoffset 1s ease-out" }}
                   />
                   <text x="90" y="85" textAnchor="middle" fontSize="36" fontWeight="700" fill="#111827">
                     {result.total}
@@ -182,7 +185,7 @@ export default function Home() {
               </div>
 
               {/* Breakdown */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-8">
+              <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8" style={{ animationDelay: "0.1s" }}>
                 <h2 className="text-xs font-bold tracking-wide text-gray-400 mb-4">CV SUMMARY</h2>
                 {[
                   { label: "Contact Info", val: result.breakdown.contactInfo, max: 15 },
@@ -190,7 +193,7 @@ export default function Home() {
                   { label: "Content Quality", val: result.breakdown.contentQuality, max: 30 },
                   { label: "Formatting", val: result.breakdown.formatting, max: 20 },
                   { label: "Keywords", val: result.breakdown.keywords, max: 10 },
-                ].map((row) => (
+                ].map((row, i) => (
                   <div key={row.label} className="mb-4 last:mb-0">
                     <div className="flex justify-between text-sm mb-1">
                       <span className="font-medium text-gray-800">{row.label}</span>
@@ -200,8 +203,8 @@ export default function Home() {
                     </div>
                     <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-indigo-600"
-                        style={{ width: `${(row.val / row.max) * 100}%` }}
+                        className="animate-bar h-full rounded-full bg-black"
+                        style={{ width: `${(row.val / row.max) * 100}%`, animationDelay: `${0.15 + i * 0.08}s` }}
                       />
                     </div>
                   </div>
@@ -210,8 +213,8 @@ export default function Home() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                <h2 className="text-sm font-bold text-red-600 mb-4 flex items-center gap-2">⚠ ISSUES FOUND</h2>
+              <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8" style={{ animationDelay: "0.2s" }}>
+                <h2 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">⚠ ISSUES FOUND</h2>
                 {result.issues.length === 0 && <p className="text-sm text-gray-400">No major issues found. Nice work.</p>}
                 <ul className="space-y-2">
                   {result.issues.map((issue, i) => (
@@ -222,12 +225,12 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-              <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                <h2 className="text-sm font-bold text-indigo-600 mb-4 flex items-center gap-2">⚡ SUGGESTIONS</h2>
+              <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8" style={{ animationDelay: "0.25s" }}>
+                <h2 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">⚡ SUGGESTIONS</h2>
                 <ul className="space-y-2">
                   {result.suggestions.map((s, i) => (
                     <li key={i} className="text-sm text-gray-700 flex gap-2">
-                      <span className="text-indigo-500">✓</span>
+                      <span className="text-gray-500">✓</span>
                       {s}
                     </li>
                   ))}
@@ -236,7 +239,7 @@ export default function Home() {
             </div>
 
             {/* CV Intelligence */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 mb-6">
+            <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8 mb-6" style={{ animationDelay: "0.3s" }}>
               <h2 className="text-sm font-bold text-gray-800 mb-4">CV Intelligence</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
@@ -248,7 +251,7 @@ export default function Home() {
                         <span className="text-gray-500">{d.pct}%</span>
                       </div>
                       <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                        <div className="h-full rounded-full bg-indigo-500" style={{ width: `${d.pct}%` }} />
+                        <div className="h-full rounded-full bg-gray-500" style={{ width: `${d.pct}%` }} />
                       </div>
                     </div>
                   ))}
@@ -258,14 +261,14 @@ export default function Home() {
                   {result.recommendedRoles.map((r) => (
                     <div
                       key={r.title}
-                      className="border border-indigo-200 bg-indigo-50 rounded-xl p-4 cursor-pointer hover:border-indigo-400 transition"
+                      className="border border-gray-300 bg-gray-50 rounded-xl p-4 cursor-pointer hover:border-gray-400 transition"
                       onClick={() => setJobQuery(r.title.toLowerCase())}
                     >
                       <p className="font-semibold text-gray-900">{r.title}</p>
                       <p className="text-xs text-gray-500 mb-2">{r.category}</p>
                       <div className="flex flex-wrap gap-1">
                         {r.tags.map((t) => (
-                          <span key={t} className="text-xs bg-white border border-indigo-200 text-indigo-700 px-2 py-0.5 rounded-full">
+                          <span key={t} className="text-xs bg-white border border-gray-300 text-black px-2 py-0.5 rounded-full">
                             {t}
                           </span>
                         ))}
@@ -277,7 +280,7 @@ export default function Home() {
             </div>
 
             {/* Find jobs */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-8">
+            <div className="animate-fade-in bg-white rounded-2xl border border-gray-200 p-8" style={{ animationDelay: "0.35s" }}>
               <h2 className="text-lg font-bold text-gray-900 mb-1">Find Jobs</h2>
               <p className="text-sm text-gray-500 mb-4">Live listings pulled from Adzuna, filtered to your profile</p>
               <div className="flex gap-2 mb-4 flex-wrap">
@@ -287,7 +290,7 @@ export default function Home() {
                     onClick={() => setCountry(c.code)}
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
                       country === c.code
-                        ? "bg-indigo-600 text-white border-indigo-600"
+                        ? "bg-black text-white border-black"
                         : "bg-white text-gray-600 border-gray-200"
                     }`}
                   >
@@ -301,7 +304,7 @@ export default function Home() {
                   href={`https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(jobQuery)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-700"
+                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-gray-300 hover:text-black"
                 >
                   LinkedIn ↗
                 </a>
@@ -309,7 +312,7 @@ export default function Home() {
                   href={`https://www.naukri.com/${encodeURIComponent(jobQuery.replace(/\s+/g, "-"))}-jobs`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-700"
+                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-gray-300 hover:text-black"
                 >
                   Naukri ↗
                 </a>
@@ -317,7 +320,7 @@ export default function Home() {
                   href={`https://www.indeed.com/jobs?q=${encodeURIComponent(jobQuery)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-indigo-300 hover:text-indigo-700"
+                  className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-gray-300 hover:text-black"
                 >
                   Indeed ↗
                 </a>
@@ -333,7 +336,7 @@ export default function Home() {
                 <button
                   onClick={searchJobs}
                   disabled={jobsLoading}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm disabled:opacity-60"
+                  className="bg-black hover:bg-gray-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm disabled:opacity-60"
                 >
                   {jobsLoading ? "Searching…" : "Search"}
                 </button>
@@ -352,7 +355,7 @@ export default function Home() {
                       href={j.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="block border border-gray-200 rounded-xl p-4 hover:border-indigo-300 transition"
+                      className="block border border-gray-200 rounded-xl p-4 transition-all duration-200 hover:border-black hover:-translate-y-0.5 hover:shadow-sm"
                     >
                       <div className="flex justify-between items-start">
                         <div>
