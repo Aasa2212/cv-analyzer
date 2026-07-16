@@ -47,17 +47,6 @@ TypeScript, not a black box:
 - Point weights (contact 15 / structure 25 / content 30 / formatting 20 / keywords 10)
   sum to 100 — rebalance as you like.
 
-## Selling this
-
-Ideas that don't require extra engineering:
-- **Niche it.** Fork the keyword list for "Marketing Resume Analyzer" or
-  "Software Engineer Resume Analyzer" and sell each as a separate small tool.
-- **Gumroad / Lemon Squeezy template sale** — sell the codebase itself as a
-  buildable template to other students/freelancers.
-- **Add a paywall later** — the codebase intentionally has no auth/payments
-  yet (kept minimal per request). When you're ready, Stripe Checkout + a
-  simple usage-count cookie or NextAuth login is the natural next step —
-  ask and I'll wire it in.
 
 ## Notes on the job search API
 
