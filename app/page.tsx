@@ -91,7 +91,9 @@ export default function Home() {
             <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">
               CV
             </div>
-            <span className="font-semibold text-gray-900 text-lg">CV Analyzer &amp; Job Finder</span>
+            <span className="font-semibold text-gray-900 text-lg">
+              CV Analyzer &amp; Job Finder <span className="text-gray-400 font-normal text-sm">(by Aasa)</span>
+            </span>
           </div>
           <span className="text-sm text-gray-500 hidden sm:block">ATS scoring · Real parsing · Live job search</span>
         </div>
